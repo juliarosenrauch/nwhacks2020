@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "901532634919",
+    "firebase_url": "https://nwhacks-enph.firebaseio.com",
+    "project_id": "nwhacks-enph",
+    "storage_bucket": "nwhacks-enph.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:901532634919:android:bf0dc30efed0d8022a2302",
+        "android_client_info": {
+          "package_name": "com.nwhacks2020.myapplication"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "901532634919-ggtsmsnaopg1u7lrlhh9lk5o9id595gk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCYrLByC0FUt9rkaWtf9NmGbVX0St_kW8w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "901532634919-ggtsmsnaopg1u7lrlhh9lk5o9id595gk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
