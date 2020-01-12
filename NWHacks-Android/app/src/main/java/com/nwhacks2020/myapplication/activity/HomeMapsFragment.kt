@@ -109,26 +109,22 @@ class HomeMapsFragment(val parentActivity: Activity) : Fragment(), OnMapReadyCal
         Log.i("Maps", "Refreshing")
         mMap.clear()
 
-//        mOfferTypesToShow = arrayListOf(
-//            Offer.foodType,
-//            Offer.shelterType,
-//            Offer.waterType,
-//            Offer.sleepType
-//        )
         mOfferTypesToShow = arrayListOf()
-        if (view?.findViewById<CheckBox>(R.id.checkBox3)?.isChecked() == true) {
-            mOfferTypesToShow.add(Offer.foodType)
+        if (view?.findViewById<CheckBox>(R.id.communityResourcesBox)?.isChecked() == true) {
+            for (offer in Offer.allTypes) { mOfferTypesToShow.add(offer) }
         }
 
-        if (view?.findViewById<CheckBox>(R.id.checkBox4)?.isChecked() == true) {
-            mOfferTypesToShow.add(Offer.shelterType)
-        }
-        if (view?.findViewById<CheckBox>(R.id.checkBox5)?.isChecked() == true) {
-            mOfferTypesToShow.add(Offer.sleepType)
+        if (view?.findViewById<CheckBox>(R.id.familyBox)?.isChecked() == true) {
+            mOfferTypesToShow.add(Offer.personType)
+            mOfferTypesToShow.add(Offer.musterPointType)
         }
 
         placeMarkers(mOfferTypesToShow)
-        placePolygon()
+
+        if (view?.findViewById<CheckBox>(R.id.officialRiskZonesBox)?.isChecked() == true) {
+            placePolygon()
+        }
+
     }
 
     private fun placeMarkers(offerTypesToShow: List<String>) {
@@ -171,6 +167,20 @@ class HomeMapsFragment(val parentActivity: Activity) : Fragment(), OnMapReadyCal
                                 )
                             )
                         }
+                        Offer.personType -> {
+                            markerOptions.icon(
+                                BitmapDescriptorFactory.fromBitmap(
+                                    BitmapFactory.decodeResource(resources, R.mipmap.person_marker)
+                                )
+                            )
+                        }
+//                        Offer.musterPointType -> {
+//                            markerOptions.icon(
+//                                BitmapDescriptorFactory.fromBitmap(
+//                                    BitmapFactory.decodeResource(resources, R.mipmap.muster_point_marker)
+//                                )
+//                            )
+//                        }
                     }
                     // Set title, shows only when marker pressed
                     markerOptions.title(offer.text)
