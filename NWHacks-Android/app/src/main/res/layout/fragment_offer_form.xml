@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.OfferFormActivity">
+    tools:context=".activity.OfferFormActivityFragment">
 
     <EditText
         android:id="@+id/offer_form_edittext"

@@ -39,7 +39,7 @@ class MainActivity : AppCompatActivity() {
             Intent(applicationContext, AppLoginActivity::class.java)
         } else {
             Log.i("MAINACTIVITY", "User found")
-            Intent(applicationContext, HomeActivity::class.java)
+            Intent(applicationContext, HomeMapsFragment::class.java)
         }
         startActivity(intent)
     }

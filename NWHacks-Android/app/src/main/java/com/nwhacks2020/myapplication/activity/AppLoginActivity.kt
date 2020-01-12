@@ -68,7 +68,7 @@ class AppLoginActivity : AppCompatActivity() {
                 if (task.isSuccessful) {
                     AppService.getService().initializeNewUser(acct)
                     // Go to home screen activity
-                    startActivity(Intent(applicationContext, HomeActivity::class.java))
+                    startActivity(Intent(applicationContext, HomeMapsFragment::class.java))
                 } else {
                     Log.e("AppLoginActivity", "Sign in unsuccessful")
                 }

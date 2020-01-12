@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">NWHacks</string>
     <string name="auth_clientID">901532634919-ggtsmsnaopg1u7lrlhh9lk5o9id595gk.apps.googleusercontent.com</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
