@@ -19,6 +19,7 @@ class AppService {
     }
 
     fun getSignedInUser(context: Context): User? {
+        // TODO: Doesn't currently work
         val account: GoogleSignInAccount? = GoogleSignIn.getLastSignedInAccount(context)
         account?.let {
             initializeUser(it)

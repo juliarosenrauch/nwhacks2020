@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity() {
                 0
             )
         }
-        // See if there's a sign in
+        // See if there's a sign in - this currently doesn't work
         val user = AppService.getService().getSignedInUser(this)
         // Conditionally route depending on logged in user status
         val intent: Intent = if (user == null) {
