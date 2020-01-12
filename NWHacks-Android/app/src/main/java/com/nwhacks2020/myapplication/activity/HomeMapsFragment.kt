@@ -10,6 +10,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -48,6 +49,12 @@ class HomeMapsFragment(val parentActivity: Activity) : Fragment(), OnMapReadyCal
         }
 
         childFragmentManager.beginTransaction().replace(R.id.map, mapFragment as SupportMapFragment).commit()
+
+        // Refresh btn
+        view.findViewById<Button>(R.id.map_refresh_btn).setOnClickListener {
+            refresh()
+        }
+
         return view
     }
 
@@ -85,7 +92,7 @@ class HomeMapsFragment(val parentActivity: Activity) : Fragment(), OnMapReadyCal
     }
 
     private fun refresh() {
-        // TODO: this should be called when a button is pressed so new locatons show up
+        Log.i("Maps", "Refreshing")
         mMap.clear()
         placeMarkers()
         placePolygon()
