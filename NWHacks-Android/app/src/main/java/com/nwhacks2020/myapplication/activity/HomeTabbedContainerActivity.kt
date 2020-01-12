@@ -43,7 +43,7 @@ class HomeTabbedContainerActivity : AppCompatActivity() {
                     true
                 }
                 R.id.navigation_alerts -> {
-                    openFragment(InfoFragment())
+                    openFragment(GovernmentAlertsFragment())
                     true
                 }
                 R.id.navigation_assist -> {

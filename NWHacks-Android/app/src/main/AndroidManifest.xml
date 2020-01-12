@@ -12,7 +12,7 @@
     <application
         android:allowBackup="true"
         android:icon="@mipmap/logo_shadow"
-        android:label="@string/app_name"
+        android:label="Harbour"
         android:roundIcon="@mipmap/logo_shadow"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
