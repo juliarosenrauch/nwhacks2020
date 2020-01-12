@@ -16,6 +16,13 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.nwhacks2020.myapplication.R
+import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.BitmapDescriptor
+import android.graphics.BitmapFactory
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
+import com.google.android.gms.maps.model.PolygonOptions
+import android.graphics.Color
+
 
 
 class HomeActivity : AppCompatActivity(), OnMapReadyCallback,
@@ -62,6 +69,11 @@ class HomeActivity : AppCompatActivity(), OnMapReadyCallback,
                     val currLocation = LatLng(location.latitude, location.longitude)
                     mMap.moveCamera(CameraUpdateFactory.newLatLng(currLocation))
                     mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currLocation, 15f))
+
+                    // Tyler: Place marker
+                    val markerOptions = MarkerOptions().position(currLocation)
+                    // 2
+                    mMap.addMarker(markerOptions)
                 }
             }
         } else {
@@ -85,6 +97,75 @@ class HomeActivity : AppCompatActivity(), OnMapReadyCallback,
     }
 
     override fun onMyLocationClick(loc: Location) {
+        // Messy example of adding markers and polygons
 
+        // Clear map
+        mMap.clear()
+
+        // Place marker
+        val markerOptions = MarkerOptions().position(currLocation)
+        markerOptions.icon(
+            BitmapDescriptorFactory.fromBitmap(
+                BitmapFactory.decodeResource(resources, R.mipmap.logo1)
+            )
+        )
+        markerOptions.title("One bed")
+        mMap.addMarker(markerOptions)
+
+        // Change map type
+        mMap.mapType = GoogleMap.MAP_TYPE_SATELLITE
+
+        // Place polygon
+        val polygon = PolygonOptions().clickable(true)
+            .add(
+                LatLng(loc.latitude, loc.longitude),
+                LatLng(loc.latitude + Math.random() * 0.1, loc.longitude + Math.random() * 0.1),
+                LatLng(loc.latitude + Math.random() * 0.2, loc.longitude)
+            )
+        polygon.strokeColor(Color.RED)
+        polygon.fillColor(Color.BLUE)
+        mMap.addPolygon(polygon)
+    }
+
+    fun addMarkers(places: List<Triple<Int, Int, String>>) {
+        // Clear map
+        mMap.clear()
+
+        for (place in places) {
+            // Create markerOptions with position
+            val loc = LatLng(place.first.toDouble(), place.second.toDouble())
+            val markerOptions = MarkerOptions().position(loc)
+
+            // Set the icon (change second arg. of decodeResource)
+            // TODO: Change R.mipmap.logo1 based on string
+            markerOptions.icon(
+                BitmapDescriptorFactory.fromBitmap(
+                    BitmapFactory.decodeResource(resources, R.mipmap.logo1)
+                )
+            )
+
+            // Set title, shows only when marker pressed
+            markerOptions.title(place.third)
+
+            // Update map
+            mMap.addMarker(markerOptions)
+        }
+    }
+
+    fun addPolygons(polygons: List<List<LatLng>>) {
+        for (polygon in polygons) {
+            // Create PolygonOptions with the LatLngs
+            val polygonOptions = PolygonOptions().clickable(true)
+            for (loc in polygon) {
+                polygonOptions.add(loc)
+            }
+
+            // Color for stroke and filll
+            polygonOptions.strokeColor(Color.RED)
+            polygonOptions.fillColor(Color.BLUE)
+
+            // Add polygons
+            mMap.addPolygon(polygonOptions)
+        }
     }
 }
