@@ -110,22 +110,29 @@ class HomeMapsFragment(val parentActivity: Activity) : Fragment(), OnMapReadyCal
                     Offer.foodType -> {
                         markerOptions.icon(
                             BitmapDescriptorFactory.fromBitmap(
-                                BitmapFactory.decodeResource(resources, android.R.drawable.ic_input_add)
+                                BitmapFactory.decodeResource(resources, R.mipmap.food_marker)
                             )
                         )
                     }
                     Offer.shelterType -> {
                         markerOptions.icon(
                             BitmapDescriptorFactory.fromBitmap(
-                                BitmapFactory.decodeResource(resources, android.R.drawable.ic_input_add)
+                                BitmapFactory.decodeResource(resources, R.mipmap.shelter_marker)
                             )
                         )
                     }
-                    Offer.suppliesType -> {
+                    Offer.waterType -> {
                         markerOptions.icon(
                             BitmapDescriptorFactory.fromBitmap(
-                                BitmapFactory.decodeResource(resources, android.R.drawable.ic_input_add)
+                                BitmapFactory.decodeResource(resources, R.mipmap.water_marker)
                             )
+                        )
+                    }
+                    Offer.sleepType -> {
+                        markerOptions.icon(
+                                BitmapDescriptorFactory.fromBitmap(
+                                        BitmapFactory.decodeResource(resources, R.mipmap.sleep_marker)
+                                )
                         )
                     }
                 }
