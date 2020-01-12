@@ -3,24 +3,28 @@ package com.nwhacks2020.myapplication.activity
 import android.Manifest
 import android.content.pm.PackageManager
 import android.location.Location
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
 import com.nwhacks2020.myapplication.R
+
 
 class HomeActivity : AppCompatActivity(), OnMapReadyCallback,
     GoogleMap.OnMyLocationButtonClickListener, GoogleMap.OnMyLocationClickListener,
     ActivityCompat.OnRequestPermissionsResultCallback {
 
     private lateinit var mMap: GoogleMap
+    private lateinit var locationProvider: FusedLocationProviderClient
+    private lateinit var lastLocation: Location
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,6 +33,7 @@ class HomeActivity : AppCompatActivity(), OnMapReadyCallback,
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
+        locationProvider = LocationServices.getFusedLocationProviderClient(this)
     }
 
     /**
@@ -50,8 +55,15 @@ class HomeActivity : AppCompatActivity(), OnMapReadyCallback,
             mMap.setMyLocationEnabled(true)
             mMap.setOnMyLocationButtonClickListener(this)
             mMap.setOnMyLocationClickListener(this)
-            mMap.isBuildingsEnabled = false
-            mMap.isTrafficEnabled = false
+            // Zoom to current location
+            val currLocationTask = locationProvider.lastLocation
+            currLocationTask.addOnSuccessListener { location ->
+                if (location != null) {
+                    val currLocation = LatLng(location.latitude, location.longitude)
+                    mMap.moveCamera(CameraUpdateFactory.newLatLng(currLocation))
+                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currLocation, 15f))
+                }
+            }
         } else {
             ActivityCompat.requestPermissions(
                 this,
