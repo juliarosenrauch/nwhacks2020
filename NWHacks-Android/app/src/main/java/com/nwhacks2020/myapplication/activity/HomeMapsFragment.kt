@@ -21,6 +21,8 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.PolygonOptions
+import android.graphics.Color
 import com.nwhacks2020.myapplication.R
 import com.nwhacks2020.myapplication.models.Offer
 import com.nwhacks2020.myapplication.services.AppService
@@ -139,6 +141,24 @@ class HomeMapsFragment(val parentActivity: Activity) : Fragment(), OnMapReadyCal
 
     private fun placePolygon() {
         // TODO: Create hard-coded polygon near UBC, shaded red for demo purposes
+        // Create PolygonOptions with the LatLngs
+        val polygonOptions = PolygonOptions().clickable(true)
+
+        polygonOptions.add(LatLng(49.254474, -123.249725))
+        polygonOptions.add(LatLng(49.252095, -123.246397))
+        polygonOptions.add(LatLng(49.254115, -123.241145))
+        polygonOptions.add(LatLng(49.256619, -123.243078))
+        polygonOptions.add(LatLng(49.255918, -123.244411))
+        polygonOptions.add(LatLng(49.255860, -123.245007))
+        polygonOptions.add(LatLng(49.255160, -123.247225))
+        polygonOptions.add(LatLng(49.255335, -123.247999))
+
+        // Color for stroke and filll
+        polygonOptions.strokeColor(Color.RED)
+        polygonOptions.fillColor(Color.argb(123, 255, 0, 0))
+
+        // Add polygons
+        mMap.addPolygon(polygonOptions)
     }
 
     private fun moveToCurrentLocation() {
@@ -155,6 +175,5 @@ class HomeMapsFragment(val parentActivity: Activity) : Fragment(), OnMapReadyCal
     }
 
     override fun onMyLocationClick(loc: Location) {
-
     }
 }
