@@ -35,7 +35,7 @@ class HomeTabbedContainerActivity : AppCompatActivity() {
                     true
                 }
                 R.id.navigation_group -> {
-                    openFragment(InfoFragment())
+                    openFragment(FamilyFragment())
                     true
                 }
                 R.id.navigation_info -> {
