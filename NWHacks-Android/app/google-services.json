@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "901532634919-9f0em5pnahng9dijoaql06rklu9b5tkd.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.nwhacks2020.myapplication",
+            "certificate_hash": "43fda2ee0be4f5c593fe9dc1cc39d0cbd768cfab"
+          }
+        },
+        {
           "client_id": "901532634919-ggtsmsnaopg1u7lrlhh9lk5o9id595gk.apps.googleusercontent.com",
           "client_type": 3
         }
