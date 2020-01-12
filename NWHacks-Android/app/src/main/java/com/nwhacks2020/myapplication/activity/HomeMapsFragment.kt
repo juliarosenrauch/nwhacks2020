@@ -83,6 +83,16 @@ class HomeMapsFragment(val parentActivity: Activity) : Fragment(), OnMapReadyCal
                 0
             )
         }
+
+        // Setup polygon clicked listener for title???
+//        mMap.setOnPolygonClickListener(GoogleMap.OnPolygonClickListener() {
+//            polygon ->
+//            val markerOptions = MarkerOptions().position(LatLng(49.254474, -123.249725))
+//            TextView textView =     TextView(context)
+//        textView.setText(text)
+//        textView.setTextSize(fontSize)
+//            mMap.addMarker(markerOptions)
+//        }
     }
 
     private fun initializeMap() {
@@ -141,29 +151,66 @@ class HomeMapsFragment(val parentActivity: Activity) : Fragment(), OnMapReadyCal
 
     private fun placePolygon() {
         // TODO: Create hard-coded polygon near UBC, shaded red for demo purposes
-        // Create PolygonOptions with the LatLngs
-        val polygonOptions = PolygonOptions().clickable(true)
 
-        polygonOptions.add(LatLng(49.254474, -123.249725))
-        polygonOptions.add(LatLng(49.252095, -123.246397))
-        polygonOptions.add(LatLng(49.254115, -123.241145))
-        polygonOptions.add(LatLng(49.256619, -123.243078))
-        polygonOptions.add(LatLng(49.255918, -123.244411))
-        polygonOptions.add(LatLng(49.255860, -123.245007))
-        polygonOptions.add(LatLng(49.255160, -123.247225))
-        polygonOptions.add(LatLng(49.255335, -123.247999))
+        fun placeCollapsedPolygon() {
+            // Create PolygonOptions with the LatLngs
+            val polygonOptions = PolygonOptions().clickable(true)
 
-        // Color for stroke and filll
-        polygonOptions.strokeColor(Color.RED)
-        polygonOptions.fillColor(Color.argb(123, 255, 0, 0))
+            polygonOptions.add(LatLng(49.254474, -123.249725))
+            polygonOptions.add(LatLng(49.252095, -123.246397))
+            polygonOptions.add(LatLng(49.254115, -123.241145))
+            polygonOptions.add(LatLng(49.256619, -123.243078))
+            polygonOptions.add(LatLng(49.255918, -123.244411))
+            polygonOptions.add(LatLng(49.255860, -123.245007))
+            polygonOptions.add(LatLng(49.255160, -123.247225))
+            polygonOptions.add(LatLng(49.255335, -123.247999))
 
-        // Add polygons
-        mMap.addPolygon(polygonOptions)
+            // Color for stroke and filll
+            polygonOptions.strokeColor(Color.RED)
+            polygonOptions.fillColor(Color.argb(170, 255, 0, 0))
+
+            // Add polygons
+            mMap.addPolygon(polygonOptions)
+        }
+
+        fun placeWarningPolygon() {
+            // Create PolygonOptions with the LatLngs
+            val polygonOptions = PolygonOptions().clickable(true)
+
+            polygonOptions.add(LatLng(49.266488, -123.264892))
+            polygonOptions.add(LatLng(49.262232, -123.262231))
+            polygonOptions.add(LatLng(49.255398, -123.255365))
+            polygonOptions.add(LatLng(49.254478, -123.254099))
+            polygonOptions.add(LatLng(49.251327, -123.252716))
+            polygonOptions.add(LatLng(49.238393, -123.223946))
+            polygonOptions.add(LatLng(49.231056, -123.210117))
+            polygonOptions.add(LatLng(49.222432, -123.201217))
+            polygonOptions.add(LatLng(49.216311, -123.179254))
+            polygonOptions.add(LatLng(49.271878, -123.177396))
+            polygonOptions.add(LatLng(49.273241, -123.185418))
+            polygonOptions.add(LatLng(49.272684, -123.195093))
+            polygonOptions.add(LatLng(49.276330, -123.202171))
+            polygonOptions.add(LatLng(49.275620, -123.210675))
+            polygonOptions.add(LatLng(49.279555, -123.234208))
+            polygonOptions.add(LatLng(49.279813, -123.247557))
+            polygonOptions.add(LatLng(49.270911, -123.262388))
+
+            // Color for stroke and filll
+            polygonOptions.strokeColor(Color.argb(255, 255, 165, 0))
+            polygonOptions.fillColor(Color.argb(123, 255, 165, 0))
+
+            // Add polygons
+            mMap.addPolygon(polygonOptions)
+        }
+
+        placeCollapsedPolygon()
+        placeWarningPolygon()
     }
 
     private fun moveToCurrentLocation() {
         AppService.getService().getLocation(parentActivity) { location ->
             val currLocation = LatLng(location.latitude, location.longitude)
+
             mMap.moveCamera(CameraUpdateFactory.newLatLng(currLocation))
             mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currLocation, 15f))
         }
