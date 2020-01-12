@@ -9,7 +9,8 @@ data class Offer(
     companion object {
         const val foodType = "Food"
         const val shelterType = "Shelter"
-        const val suppliesType = "Supplies"
-        val allTypes = arrayListOf(foodType, shelterType, suppliesType)
+        const val waterType = "Water"
+        const val sleepType = "Sleeping Place"
+        val allTypes = arrayListOf(foodType, shelterType, waterType, sleepType)
     }
 }
