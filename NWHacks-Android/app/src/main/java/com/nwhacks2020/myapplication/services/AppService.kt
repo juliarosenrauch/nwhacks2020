@@ -46,11 +46,11 @@ class AppService {
             }
     }
 
-    fun getOffers(onSuccess: (ArrayList<Offer>) -> Unit) {
+    fun getOffers(onSuccess: (List<Offer>) -> Unit) {
         db.collection("offers")
             .get()
             .addOnSuccessListener { result ->
-                result.documents.map {
+                val results = result.documents.map {
                     val data = it.data!!
                     Offer(
                         data["text"] as String,
@@ -59,6 +59,7 @@ class AppService {
                         data["longitude"] as Double
                     )
                 }
+                onSuccess(results)
             }
             .addOnFailureListener { exception ->
                 Log.d("getOffersFromFirebase method", "Error getting documents: ", exception)
