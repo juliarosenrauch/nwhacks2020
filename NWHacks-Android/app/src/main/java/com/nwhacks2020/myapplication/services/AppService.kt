@@ -1,9 +1,12 @@
 package com.nwhacks2020.myapplication.services
 
 import android.content.Context
+import android.location.Location
 import android.util.Log
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import com.google.firebase.firestore.FirebaseFirestore
 import com.nwhacks2020.myapplication.models.Offer
 import com.nwhacks2020.myapplication.models.User
@@ -13,37 +16,65 @@ class AppService {
 
     val db = FirebaseFirestore.getInstance()
 
-    init {
-        // Initialize any dependencies
+    fun getLocation(context: Context, onSuccess: (Location) -> Unit) {
+        val location: FusedLocationProviderClient =
+            LocationServices.getFusedLocationProviderClient(context)
+        val currLocationTask = location.lastLocation
+        currLocationTask.addOnSuccessListener { location ->
+            if (location != null) {
+                onSuccess(location)
+            }
+        }
     }
 
     fun saveOfferToFirebase(offer: Offer) {
-
-        val offerdata = hashMapOf(
+        Log.e("Service save offer to firebase", "saving offer")
+        val offerData = hashMapOf(
             "text" to offer.text,
             "type" to offer.type,
             "longitude" to offer.longitude,
             "latitude" to offer.latitude
         )
 
-        db.collection("offers").document()
-            .set(offerdata)
+        db.collection("offers")
+            .add(offerData)
             .addOnSuccessListener { documentReference ->
-                Log.d("saveOfferToFirebase method", "DocumentSnapshot successfully written!")
+                Log.e("saveOfferToFirebase method", "DocumentSnapshot successfully written!")
             }
             .addOnFailureListener { e ->
-                Log.w("saveOfferToFirebase method", "Error writing document", e)
+                Log.e("saveOfferToFirebase method", "Error writing document", e)
             }
     }
 
-    fun getOffers(){
+    // TODO: To use this function:
+//    AppService.getService().getOffers { offers ->
+//        offers.map { offer ->
+//            // Latitude
+//            offer.latitude
+//            // Longitude
+//            offer.longitude
+//            // Type
+//            offer.type // These are one of Offer.allTypes
+//            // Notes
+//            offer.text
+//
+//            // TODO: In this section, we can use map each offer to lat/long/type, then use this to create markers on the map
+//        }
+//    }
+    fun getOffers(onSuccess: (ArrayList<Offer>) -> Unit) {
         db.collection("offers")
             .get()
             .addOnSuccessListener { result ->
-            for (document in result) {
-                Log.d("getOffersFromFirebase method", "${document.id} => ${document.data}")
+                result.documents.map {
+                    val data = it.data!!
+                    Offer(
+                        data["text"] as String,
+                        data["type"] as String,
+                        data["latitude"] as Double,
+                        data["longitude"] as Double
+                    )
+                }
             }
-        }
             .addOnFailureListener { exception ->
                 Log.d("getOffersFromFirebase method", "Error getting documents: ", exception)
             }
@@ -59,7 +90,7 @@ class AppService {
             "fullName" to user.fullName,
             "email" to user.email
         )
-        
+
         db.collection("users").document(user.userId)
             .set(userdata)
             .addOnSuccessListener { documentReference ->
@@ -81,7 +112,7 @@ class AppService {
 
     private fun initializeUser(googleAccount: GoogleSignInAccount): User {
         // Create user from the signed in account
-        val user =  User(
+        val user = User(
             googleAccount.id ?: "",
             googleAccount.displayName ?: "",
             googleAccount.displayName ?: "",
@@ -94,7 +125,8 @@ class AppService {
 
     companion object {
         private var appService: AppService? = null
-        var user: User? = null // We'll force unwrap this just to be hacky, need to make sure we set this
+        var user: User? =
+            null // We'll force unwrap this just to be hacky, need to make sure we set this
 
         fun getService(): AppService {
             appService?.let { return it }

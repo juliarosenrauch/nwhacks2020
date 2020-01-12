@@ -1,9 +1,9 @@
 package com.nwhacks2020.myapplication.activity
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -13,6 +13,7 @@ import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.nwhacks2020.myapplication.R
+import com.nwhacks2020.myapplication.services.AppService
 
 class AppLoginActivity : AppCompatActivity() {
 
@@ -65,15 +66,8 @@ class AppLoginActivity : AppCompatActivity() {
         auth.signInWithCredential(credential)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
-                    // Sign in success, update UI with the signed-in user's information
-                    val user = auth.currentUser
-                    // Create user
-
-                    // Save to firebase
-
+                    AppService.getService().initializeNewUser(acct)
                     // Go to home screen activity
-
-                    Log.e("", "Yay")
                     startActivity(Intent(applicationContext, HomeActivity::class.java))
                 } else {
                     Log.e("AppLoginActivity", "Sign in unsuccessful")
