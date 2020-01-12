@@ -17,7 +17,7 @@ class HomeTabbedContainerActivity : AppCompatActivity() {
 
         val bottomNavigation = findViewById<BottomNavigationView>(R.id.bottom_navigation)
         // Set to home view
-        openFragment(HomeMapsFragment(this))
+        openFragment(InfoFragment())
 
         // TODO: This is temporary since I made this the starting page, needs to be removed
         ActivityCompat.requestPermissions(
