@@ -35,7 +35,7 @@ class HomeTabbedContainerActivity : AppCompatActivity() {
                     true
                 }
                 R.id.navigation_group -> {
-                    openFragment(InfoFragment())
+                    openFragment(FamilyFragment())
                     true
                 }
                 R.id.navigation_info -> {
@@ -43,7 +43,7 @@ class HomeTabbedContainerActivity : AppCompatActivity() {
                     true
                 }
                 R.id.navigation_alerts -> {
-                    openFragment(InfoFragment())
+                    openFragment(GovernmentAlertsFragment())
                     true
                 }
                 R.id.navigation_assist -> {

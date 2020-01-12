@@ -25,7 +25,7 @@
                 android:orientation="vertical">
 
                 <CheckBox
-                    android:id="@+id/checkBox3"
+                    android:id="@+id/communityResourcesBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:foregroundGravity="top"
@@ -33,7 +33,7 @@
                     android:visibility="visible" />
 
                 <CheckBox
-                    android:id="@+id/checkBox4"
+                    android:id="@+id/officialRiskZonesBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:foregroundGravity="top"
@@ -41,7 +41,7 @@
                     android:visibility="visible" />
 
                 <CheckBox
-                    android:id="@+id/checkBox"
+                    android:id="@+id/familyBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:foregroundGravity="top"

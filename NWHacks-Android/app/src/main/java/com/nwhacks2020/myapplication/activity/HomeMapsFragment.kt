@@ -26,7 +26,7 @@ import android.graphics.Color
 import com.nwhacks2020.myapplication.R
 import com.nwhacks2020.myapplication.models.Offer
 import com.nwhacks2020.myapplication.services.AppService
-
+import android.widget.CheckBox
 
 class HomeMapsFragment(val parentActivity: Activity) : Fragment(), OnMapReadyCallback,
     GoogleMap.OnMyLocationButtonClickListener, GoogleMap.OnMyLocationClickListener,
@@ -34,6 +34,7 @@ class HomeMapsFragment(val parentActivity: Activity) : Fragment(), OnMapReadyCal
 
     private lateinit var mMap: GoogleMap
     private var mapFragment: SupportMapFragment? = null
+    private var mOfferTypesToShow: MutableList<String> = Offer.allTypes
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -104,54 +105,88 @@ class HomeMapsFragment(val parentActivity: Activity) : Fragment(), OnMapReadyCal
     }
 
     private fun refresh() {
+
         Log.i("Maps", "Refreshing")
         mMap.clear()
-        placeMarkers()
-        placePolygon()
+
+        mOfferTypesToShow = arrayListOf()
+        if (view?.findViewById<CheckBox>(R.id.communityResourcesBox)?.isChecked() == true) {
+            for (offer in Offer.allTypes) { mOfferTypesToShow.add(offer) }
+        }
+
+        if (view?.findViewById<CheckBox>(R.id.familyBox)?.isChecked() == true) {
+            mOfferTypesToShow.add(Offer.personType)
+            mOfferTypesToShow.add(Offer.musterPointType)
+        }
+
+        placeMarkers(mOfferTypesToShow)
+
+        if (view?.findViewById<CheckBox>(R.id.officialRiskZonesBox)?.isChecked() == true) {
+            placePolygon()
+        }
+
     }
 
-    private fun placeMarkers() {
+    private fun placeMarkers(offerTypesToShow: List<String>) {
         AppService.getService().getOffers { offers ->
             offers.map { offer ->
                 Log.i("Offer retrieved", offer.text)
-                val loc = LatLng(offer.latitude, offer.longitude)
-                val markerOptions = MarkerOptions().position(loc)
-                // Set the icon (change second arg. of decodeResource)
-                // TODO: different icons for different types
-                when (offer.type) {
-                    Offer.foodType -> {
-                        markerOptions.icon(
-                            BitmapDescriptorFactory.fromBitmap(
-                                BitmapFactory.decodeResource(resources, R.mipmap.food_marker)
-                            )
-                        )
-                    }
-                    Offer.shelterType -> {
-                        markerOptions.icon(
-                            BitmapDescriptorFactory.fromBitmap(
-                                BitmapFactory.decodeResource(resources, R.mipmap.shelter_marker)
-                            )
-                        )
-                    }
-                    Offer.waterType -> {
-                        markerOptions.icon(
-                            BitmapDescriptorFactory.fromBitmap(
-                                BitmapFactory.decodeResource(resources, R.mipmap.water_marker)
-                            )
-                        )
-                    }
-                    Offer.sleepType -> {
-                        markerOptions.icon(
+
+                // Only display offers in offerTypesToShow
+                if (offer.type in offerTypesToShow) {
+                    val loc = LatLng(offer.latitude, offer.longitude)
+                    val markerOptions = MarkerOptions().position(loc)
+                    // Set the icon (change second arg. of decodeResource)
+                    // TODO: different icons for different types
+                    when (offer.type) {
+                        Offer.foodType -> {
+                            markerOptions.icon(
                                 BitmapDescriptorFactory.fromBitmap(
-                                        BitmapFactory.decodeResource(resources, R.mipmap.sleep_marker)
+                                    BitmapFactory.decodeResource(resources, R.mipmap.food_marker)
                                 )
-                        )
+                            )
+                        }
+                        Offer.shelterType -> {
+                            markerOptions.icon(
+                                BitmapDescriptorFactory.fromBitmap(
+                                    BitmapFactory.decodeResource(resources, R.mipmap.shelter_marker)
+                                )
+                            )
+                        }
+                        Offer.waterType -> {
+                            markerOptions.icon(
+                                BitmapDescriptorFactory.fromBitmap(
+                                    BitmapFactory.decodeResource(resources, R.mipmap.water_marker)
+                                )
+                            )
+                        }
+                        Offer.sleepType -> {
+                            markerOptions.icon(
+                                BitmapDescriptorFactory.fromBitmap(
+                                    BitmapFactory.decodeResource(resources, R.mipmap.sleep_marker)
+                                )
+                            )
+                        }
+                        Offer.personType -> {
+                            markerOptions.icon(
+                                BitmapDescriptorFactory.fromBitmap(
+                                    BitmapFactory.decodeResource(resources, R.mipmap.person_marker)
+                                )
+                            )
+                        }
+//                        Offer.musterPointType -> {
+//                            markerOptions.icon(
+//                                BitmapDescriptorFactory.fromBitmap(
+//                                    BitmapFactory.decodeResource(resources, R.mipmap.muster_point_marker)
+//                                )
+//                            )
+//                        }
                     }
+                    // Set title, shows only when marker pressed
+                    markerOptions.title(offer.text)
+                    // Update map
+                    mMap.addMarker(markerOptions)
                 }
-                // Set title, shows only when marker pressed
-                markerOptions.title(offer.text)
-                // Update map
-                mMap.addMarker(markerOptions)
             }
         }
     }
@@ -216,7 +251,7 @@ class HomeMapsFragment(val parentActivity: Activity) : Fragment(), OnMapReadyCal
 
     private fun moveToCurrentLocation() {
         AppService.getService().getLocation(parentActivity) { location ->
-            val currLocation = LatLng(location.latitude, location.longitude)
+            val currLocation = LatLng(49.270911, -123.262388)
 
             mMap.moveCamera(CameraUpdateFactory.newLatLng(currLocation))
             mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currLocation, 15f))

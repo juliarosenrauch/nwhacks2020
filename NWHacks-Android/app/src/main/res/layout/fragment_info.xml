@@ -6,7 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activity.InfoFragment">
-
     <EditText
         android:id="@+id/info_fragment_search_box"
         android:layout_width="0dp"
@@ -18,17 +17,17 @@
         android:inputType="textPersonName"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
     <Button
         android:id="@+id/info_fragment_submit_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="36dp"
+        android:background="#619FEA"
+        android:textColor="@android:color/white"
         android:text="Search"
         app:layout_constraintBottom_toBottomOf="@+id/info_fragment_search_box"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintLeft_toRightOf="@+id/info_fragment_search_box" />
-
     <TextView
         android:id="@+id/info_detail_text"
         android:layout_width="wrap_content"

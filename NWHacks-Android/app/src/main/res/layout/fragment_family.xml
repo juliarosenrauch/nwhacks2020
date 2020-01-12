@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/MemberTitle"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/time6"
+        android:layout_width="65dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="3:41 pm"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        android:textColor="#868D86"
+        app:layout_constraintStart_toEndOf="@+id/unknown"
+        app:layout_constraintTop_toBottomOf="@+id/time3" />
+
+    <TextView
+        android:id="@+id/time5"
+        android:layout_width="65dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="3:41pm"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        android:textColor="#868D86"
+        app:layout_constraintStart_toEndOf="@+id/missing"
+        app:layout_constraintTop_toBottomOf="@+id/time6" />
+
+    <TextView
+        android:id="@+id/time3"
+        android:layout_width="65dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="12dp"
+        android:text="9:15 am"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        android:textColor="#868D86"
+        app:layout_constraintStart_toEndOf="@+id/safe2"
+        app:layout_constraintTop_toBottomOf="@+id/time2" />
+
+    <TextView
+        android:id="@+id/time2"
+        android:layout_width="65dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="12dp"
+        android:text="12:38 pm"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        android:textColor="#868D86"
+        app:layout_constraintStart_toEndOf="@+id/safe"
+        app:layout_constraintTop_toBottomOf="@+id/lastupdate" />
+
+    <TextView
+        android:id="@+id/lastupdate"
+        android:layout_width="113dp"
+        android:layout_height="21dp"
+        android:layout_marginTop="140dp"
+        android:text="Last Updated"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        android:textColor="#4C4F4C"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/waypoint"
+        android:layout_width="215dp"
+        android:layout_height="33dp"
+        android:layout_marginTop="384dp"
+        android:text="Waypoints"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.178"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/missing"
+        android:layout_width="65dp"
+        android:layout_height="23dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="16dp"
+        android:text="Missing"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        android:textColor="#F44336"
+        app:layout_constraintStart_toEndOf="@+id/julia"
+        app:layout_constraintTop_toBottomOf="@+id/unknown" />
+
+    <TextView
+        android:id="@+id/unknown"
+        android:layout_width="65dp"
+        android:layout_height="23dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="16dp"
+        android:text="Unknown"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        android:textColor="#FF9800"
+        app:layout_constraintStart_toEndOf="@+id/frank"
+        app:layout_constraintTop_toBottomOf="@+id/safe2" />
+
+    <TextView
+        android:id="@+id/julia"
+        android:layout_width="174dp"
+        android:layout_height="27dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="52dp"
+        android:text="Julia Rosenrauch"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tyler" />
+
+    <TextView
+        android:id="@+id/safe2"
+        android:layout_width="65dp"
+        android:layout_height="23dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="16dp"
+        android:text="Safe"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        android:textColor="#4CAF50"
+        app:layout_constraintStart_toEndOf="@+id/tyler"
+        app:layout_constraintTop_toBottomOf="@+id/safe" />
+
+    <TextView
+        android:id="@+id/tyler"
+        android:layout_width="175dp"
+        android:layout_height="26dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="12dp"
+        android:text="Tyler Lum"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/emma" />
+
+    <TextView
+        android:id="@+id/frank"
+        android:layout_width="174dp"
+        android:layout_height="27dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="12dp"
+        android:text="Frank Jia"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tyler" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="215dp"
+        android:layout_height="33dp"
+        android:layout_marginTop="16dp"
+        android:text="Members"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.178"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Title" />
+
+    <TextView
+        android:id="@+id/emma"
+        android:layout_width="175dp"
+        android:layout_height="26dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="12dp"
+        android:text="Emma Gray"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+
+    <TextView
+        android:id="@+id/safe"
+        android:layout_width="65dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="14dp"
+        android:text="Safe"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        android:textColor="#4CAF50"
+        app:layout_constraintStart_toEndOf="@+id/emma"
+        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+
+    <EditText
+        android:id="@+id/Title"
+        android:layout_width="205dp"
+        android:layout_height="80dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="32dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="My Group"
+        android:textSize="36sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="24dp"
+        android:text="waypoint 1: UBC Life Building"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/waypoint" />
+
+    <Button
+        android:id="@+id/navigate"
+        android:layout_width="117dp"
+        android:layout_height="43dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="8dp"
+        android:text="Navigate To"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        app:layout_constraintStart_toEndOf="@+id/textView7"
+        app:layout_constraintTop_toBottomOf="@+id/waypoint" />
+</androidx.constraintlayout.widget.ConstraintLayout>

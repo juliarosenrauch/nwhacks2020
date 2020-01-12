@@ -11,6 +11,9 @@ data class Offer(
         const val shelterType = "Shelter"
         const val waterType = "Water"
         const val sleepType = "Sleeping Place"
+        const val personType = "Person"
+        const val musterPointType = "Muster Point"
+
         val allTypes = arrayListOf(foodType, shelterType, waterType, sleepType)
     }
 }
