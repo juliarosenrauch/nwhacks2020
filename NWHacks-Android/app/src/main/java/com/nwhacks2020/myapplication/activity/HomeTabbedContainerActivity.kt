@@ -19,6 +19,7 @@ class HomeTabbedContainerActivity : AppCompatActivity() {
         // Set to home view
         openFragment(HomeMapsFragment(this))
 
+
         // TODO: This is temporary since I made this the starting page, needs to be removed
         ActivityCompat.requestPermissions(
             this,
@@ -31,23 +32,23 @@ class HomeTabbedContainerActivity : AppCompatActivity() {
             when (it.itemId) {
                 R.id.navigation_home -> {
                     openFragment(HomeMapsFragment(this))
-                    false
+                    true
                 }
                 R.id.navigation_group -> {
                     openFragment(InfoFragment())
-                    false
+                    true
                 }
                 R.id.navigation_info -> {
                     openFragment(InfoFragment())
-                    false
+                    true
                 }
                 R.id.navigation_alerts -> {
                     openFragment(InfoFragment())
-                    false
+                    true
                 }
                 R.id.navigation_assist -> {
                     openFragment(OfferFormActivityFragment())
-                    false
+                    true
                 }
                 else -> { false }
             }

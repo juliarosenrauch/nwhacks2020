@@ -3,24 +3,26 @@ package com.nwhacks2020.myapplication.activity
 import android.Manifest
 import android.app.Activity
 import android.content.pm.PackageManager
+import android.graphics.BitmapFactory
 import android.location.Location
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentTransaction
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
 import com.nwhacks2020.myapplication.R
+import com.nwhacks2020.myapplication.models.Offer
 import com.nwhacks2020.myapplication.services.AppService
 
 
@@ -47,6 +49,12 @@ class HomeMapsFragment(val parentActivity: Activity) : Fragment(), OnMapReadyCal
         }
 
         childFragmentManager.beginTransaction().replace(R.id.map, mapFragment as SupportMapFragment).commit()
+
+        // Refresh btn
+        view.findViewById<Button>(R.id.map_refresh_btn).setOnClickListener {
+            refresh()
+        }
+
         return view
     }
 
@@ -65,7 +73,7 @@ class HomeMapsFragment(val parentActivity: Activity) : Fragment(), OnMapReadyCal
         if (ContextCompat.checkSelfPermission(parentActivity, Manifest.permission.ACCESS_FINE_LOCATION)
             == PackageManager.PERMISSION_GRANTED
         ) {
-            initializeCurrentLocation()
+            initializeMap()
         } else {
             ActivityCompat.requestPermissions(
                 parentActivity,
@@ -73,18 +81,64 @@ class HomeMapsFragment(val parentActivity: Activity) : Fragment(), OnMapReadyCal
                 0
             )
         }
-
-        // Add a marker in Sydney and move the camera
-//        val sydney = LatLng(-34.0, 151.0)
-//        mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
-//        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
     }
 
-    private fun initializeCurrentLocation() {
+    private fun initializeMap() {
         mMap.setMyLocationEnabled(true)
         mMap.setOnMyLocationButtonClickListener(this)
         mMap.setOnMyLocationClickListener(this)
         moveToCurrentLocation()
+        refresh()
+    }
+
+    private fun refresh() {
+        Log.i("Maps", "Refreshing")
+        mMap.clear()
+        placeMarkers()
+        placePolygon()
+    }
+
+    private fun placeMarkers() {
+        AppService.getService().getOffers { offers ->
+            offers.map { offer ->
+                Log.i("Offer retrieved", offer.text)
+                val loc = LatLng(offer.latitude, offer.longitude)
+                val markerOptions = MarkerOptions().position(loc)
+                // Set the icon (change second arg. of decodeResource)
+                // TODO: different icons for different types
+                when (offer.type) {
+                    Offer.foodType -> {
+                        markerOptions.icon(
+                            BitmapDescriptorFactory.fromBitmap(
+                                BitmapFactory.decodeResource(resources, android.R.drawable.ic_input_add)
+                            )
+                        )
+                    }
+                    Offer.shelterType -> {
+                        markerOptions.icon(
+                            BitmapDescriptorFactory.fromBitmap(
+                                BitmapFactory.decodeResource(resources, android.R.drawable.ic_input_add)
+                            )
+                        )
+                    }
+                    Offer.suppliesType -> {
+                        markerOptions.icon(
+                            BitmapDescriptorFactory.fromBitmap(
+                                BitmapFactory.decodeResource(resources, android.R.drawable.ic_input_add)
+                            )
+                        )
+                    }
+                }
+                // Set title, shows only when marker pressed
+                markerOptions.title(offer.text)
+                // Update map
+                mMap.addMarker(markerOptions)
+            }
+        }
+    }
+
+    private fun placePolygon() {
+        // TODO: Create hard-coded polygon near UBC, shaded red for demo purposes
     }
 
     private fun moveToCurrentLocation() {
@@ -96,9 +150,8 @@ class HomeMapsFragment(val parentActivity: Activity) : Fragment(), OnMapReadyCal
     }
 
     override fun onMyLocationButtonClick(): Boolean {
-        // Return false so that we don't consume the event and the default behavior still occurs
-        // (the camera animates to the user's current position).
-        return false
+        moveToCurrentLocation()
+        return true
     }
 
     override fun onMyLocationClick(loc: Location) {
