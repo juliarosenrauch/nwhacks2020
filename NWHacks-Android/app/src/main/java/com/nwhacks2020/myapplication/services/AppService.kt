@@ -46,21 +46,6 @@ class AppService {
             }
     }
 
-    // TODO: To use this function:
-//    AppService.getService().getOffers { offers ->
-//        offers.map { offer ->
-//            // Latitude
-//            offer.latitude
-//            // Longitude
-//            offer.longitude
-//            // Type
-//            offer.type // These are one of Offer.allTypes
-//            // Notes
-//            offer.text
-//
-//            // TODO: In this section, we can use map each offer to lat/long/type, then use this to create markers on the map
-//        }
-//    }
     fun getOffers(onSuccess: (ArrayList<Offer>) -> Unit) {
         db.collection("offers")
             .get()
