@@ -209,7 +209,7 @@ class HomeMapsFragment(val parentActivity: Activity) : Fragment(), OnMapReadyCal
 
             // Color for stroke and filll
             polygonOptions.strokeColor(Color.RED)
-            polygonOptions.fillColor(Color.argb(170, 255, 0, 0))
+            polygonOptions.fillColor(Color.argb(140, 255, 0, 0))
 
             // Add polygons
             mMap.addPolygon(polygonOptions)
@@ -239,7 +239,7 @@ class HomeMapsFragment(val parentActivity: Activity) : Fragment(), OnMapReadyCal
 
             // Color for stroke and filll
             polygonOptions.strokeColor(Color.argb(255, 255, 165, 0))
-            polygonOptions.fillColor(Color.argb(123, 255, 165, 0))
+            polygonOptions.fillColor(Color.argb(65, 255, 165, 0))
 
             // Add polygons
             mMap.addPolygon(polygonOptions)
