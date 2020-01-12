@@ -8,7 +8,7 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:901532634919:android:bf0dc30efed0d8022a2302",
+        "mobilesdk_app_id": "1:901532634919:android:e46c253d2604f1002a2302",
         "android_client_info": {
           "package_name": "com.nwhacks2020.myapplication"
         }
@@ -29,7 +29,7 @@
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCYrLByC0FUt9rkaWtf9NmGbVX0St_kW8w"
+          "current_key": "AIzaSyDGvrZWYPCFmvJa_2-dYI5ejpkE35SRbKc"
         }
       ],
       "services": {
