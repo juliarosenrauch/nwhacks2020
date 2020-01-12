@@ -3,24 +3,28 @@ package com.nwhacks2020.myapplication.activity
 import android.Manifest
 import android.app.Activity
 import android.content.pm.PackageManager
+import android.graphics.BitmapFactory
 import android.location.Location
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentTransaction
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.PolygonOptions
+import android.graphics.Color
 import com.nwhacks2020.myapplication.R
+import com.nwhacks2020.myapplication.models.Offer
 import com.nwhacks2020.myapplication.services.AppService
 
 
@@ -47,6 +51,12 @@ class HomeMapsFragment(val parentActivity: Activity) : Fragment(), OnMapReadyCal
         }
 
         childFragmentManager.beginTransaction().replace(R.id.map, mapFragment as SupportMapFragment).commit()
+
+        // Refresh btn
+        view.findViewById<Button>(R.id.map_refresh_btn).setOnClickListener {
+            refresh()
+        }
+
         return view
     }
 
@@ -65,7 +75,7 @@ class HomeMapsFragment(val parentActivity: Activity) : Fragment(), OnMapReadyCal
         if (ContextCompat.checkSelfPermission(parentActivity, Manifest.permission.ACCESS_FINE_LOCATION)
             == PackageManager.PERMISSION_GRANTED
         ) {
-            initializeCurrentLocation()
+            initializeMap()
         } else {
             ActivityCompat.requestPermissions(
                 parentActivity,
@@ -74,34 +84,150 @@ class HomeMapsFragment(val parentActivity: Activity) : Fragment(), OnMapReadyCal
             )
         }
 
-        // Add a marker in Sydney and move the camera
-//        val sydney = LatLng(-34.0, 151.0)
-//        mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
-//        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
+        // Setup polygon clicked listener for title???
+//        mMap.setOnPolygonClickListener(GoogleMap.OnPolygonClickListener() {
+//            polygon ->
+//            val markerOptions = MarkerOptions().position(LatLng(49.254474, -123.249725))
+//            TextView textView =     TextView(context)
+//        textView.setText(text)
+//        textView.setTextSize(fontSize)
+//            mMap.addMarker(markerOptions)
+//        }
     }
 
-    private fun initializeCurrentLocation() {
+    private fun initializeMap() {
         mMap.setMyLocationEnabled(true)
         mMap.setOnMyLocationButtonClickListener(this)
         mMap.setOnMyLocationClickListener(this)
         moveToCurrentLocation()
+        refresh()
+    }
+
+    private fun refresh() {
+        Log.i("Maps", "Refreshing")
+        mMap.clear()
+        placeMarkers()
+        placePolygon()
+    }
+
+    private fun placeMarkers() {
+        AppService.getService().getOffers { offers ->
+            offers.map { offer ->
+                Log.i("Offer retrieved", offer.text)
+                val loc = LatLng(offer.latitude, offer.longitude)
+                val markerOptions = MarkerOptions().position(loc)
+                // Set the icon (change second arg. of decodeResource)
+                // TODO: different icons for different types
+                when (offer.type) {
+                    Offer.foodType -> {
+                        markerOptions.icon(
+                            BitmapDescriptorFactory.fromBitmap(
+                                BitmapFactory.decodeResource(resources, R.mipmap.food_marker)
+                            )
+                        )
+                    }
+                    Offer.shelterType -> {
+                        markerOptions.icon(
+                            BitmapDescriptorFactory.fromBitmap(
+                                BitmapFactory.decodeResource(resources, R.mipmap.shelter_marker)
+                            )
+                        )
+                    }
+                    Offer.waterType -> {
+                        markerOptions.icon(
+                            BitmapDescriptorFactory.fromBitmap(
+                                BitmapFactory.decodeResource(resources, R.mipmap.water_marker)
+                            )
+                        )
+                    }
+                    Offer.sleepType -> {
+                        markerOptions.icon(
+                                BitmapDescriptorFactory.fromBitmap(
+                                        BitmapFactory.decodeResource(resources, R.mipmap.sleep_marker)
+                                )
+                        )
+                    }
+                }
+                // Set title, shows only when marker pressed
+                markerOptions.title(offer.text)
+                // Update map
+                mMap.addMarker(markerOptions)
+            }
+        }
+    }
+
+    private fun placePolygon() {
+        // TODO: Create hard-coded polygon near UBC, shaded red for demo purposes
+
+        fun placeCollapsedPolygon() {
+            // Create PolygonOptions with the LatLngs
+            val polygonOptions = PolygonOptions().clickable(true)
+
+            polygonOptions.add(LatLng(49.254474, -123.249725))
+            polygonOptions.add(LatLng(49.252095, -123.246397))
+            polygonOptions.add(LatLng(49.254115, -123.241145))
+            polygonOptions.add(LatLng(49.256619, -123.243078))
+            polygonOptions.add(LatLng(49.255918, -123.244411))
+            polygonOptions.add(LatLng(49.255860, -123.245007))
+            polygonOptions.add(LatLng(49.255160, -123.247225))
+            polygonOptions.add(LatLng(49.255335, -123.247999))
+
+            // Color for stroke and filll
+            polygonOptions.strokeColor(Color.RED)
+            polygonOptions.fillColor(Color.argb(170, 255, 0, 0))
+
+            // Add polygons
+            mMap.addPolygon(polygonOptions)
+        }
+
+        fun placeWarningPolygon() {
+            // Create PolygonOptions with the LatLngs
+            val polygonOptions = PolygonOptions().clickable(true)
+
+            polygonOptions.add(LatLng(49.266488, -123.264892))
+            polygonOptions.add(LatLng(49.262232, -123.262231))
+            polygonOptions.add(LatLng(49.255398, -123.255365))
+            polygonOptions.add(LatLng(49.254478, -123.254099))
+            polygonOptions.add(LatLng(49.251327, -123.252716))
+            polygonOptions.add(LatLng(49.238393, -123.223946))
+            polygonOptions.add(LatLng(49.231056, -123.210117))
+            polygonOptions.add(LatLng(49.222432, -123.201217))
+            polygonOptions.add(LatLng(49.216311, -123.179254))
+            polygonOptions.add(LatLng(49.271878, -123.177396))
+            polygonOptions.add(LatLng(49.273241, -123.185418))
+            polygonOptions.add(LatLng(49.272684, -123.195093))
+            polygonOptions.add(LatLng(49.276330, -123.202171))
+            polygonOptions.add(LatLng(49.275620, -123.210675))
+            polygonOptions.add(LatLng(49.279555, -123.234208))
+            polygonOptions.add(LatLng(49.279813, -123.247557))
+            polygonOptions.add(LatLng(49.270911, -123.262388))
+
+            // Color for stroke and filll
+            polygonOptions.strokeColor(Color.argb(255, 255, 165, 0))
+            polygonOptions.fillColor(Color.argb(123, 255, 165, 0))
+
+            // Add polygons
+            mMap.addPolygon(polygonOptions)
+        }
+
+        placeCollapsedPolygon()
+        placeWarningPolygon()
     }
 
     private fun moveToCurrentLocation() {
         AppService.getService().getLocation(parentActivity) { location ->
             val currLocation = LatLng(location.latitude, location.longitude)
+
             mMap.moveCamera(CameraUpdateFactory.newLatLng(currLocation))
             mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currLocation, 15f))
         }
     }
 
     override fun onMyLocationButtonClick(): Boolean {
-        // Return false so that we don't consume the event and the default behavior still occurs
-        // (the camera animates to the user's current position).
-        return false
+        moveToCurrentLocation()
+        return true
     }
 
     override fun onMyLocationClick(loc: Location) {
-
     }
 }
