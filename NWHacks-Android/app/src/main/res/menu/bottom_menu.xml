@@ -2,22 +2,22 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/navigation_group"
-        android:icon="@android:drawable/ic_menu_day"
+        android:icon="@mipmap/family_icon"
         android:title="Group" />
     <item
         android:id="@+id/navigation_assist"
-        android:icon="@android:drawable/ic_menu_day"
+        android:icon="@mipmap/assist_icon"
         android:title="Assist" />
     <item
         android:id="@+id/navigation_home"
-        android:icon="@android:drawable/ic_menu_day"
+        android:icon="@mipmap/map_icon"
         android:title="Home" />
     <item
         android:id="@+id/navigation_alerts"
-        android:icon="@android:drawable/ic_menu_day"
+        android:icon="@mipmap/alerts_icon"
         android:title="Alerts" />
     <item
         android:id="@+id/navigation_info"
-        android:icon="@android:drawable/ic_menu_day"
+        android:icon="@mipmap/info_icon"
         android:title="Information" />
 </menu>
