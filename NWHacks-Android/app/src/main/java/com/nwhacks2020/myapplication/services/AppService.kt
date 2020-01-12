@@ -1,12 +1,16 @@
 package com.nwhacks2020.myapplication.services
 
 import android.content.Context
+import android.util.Log
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.firebase.firestore.FirebaseFirestore
 import com.nwhacks2020.myapplication.models.User
 
 // For all services used in the app
 class AppService {
+
+    val db = FirebaseFirestore.getInstance()
 
     init {
         // Initialize any dependencies
@@ -14,8 +18,23 @@ class AppService {
 
     fun initializeNewUser(googleAccount: GoogleSignInAccount) {
         // Create a user
-        initializeUser(googleAccount)
-        // TODO: Save to firebase
+        val user = initializeUser(googleAccount)
+
+        val userdata = hashMapOf(
+            "userId" to user.userId,
+            "userName" to user.userName,
+            "fullName" to user.fullName,
+            "email" to user.email
+        )
+        
+        db.collection("users").document(user.userId)
+            .set(userdata)
+            .addOnSuccessListener { documentReference ->
+                Log.d("initializeNewUser method", "DocumentSnapshot successfully written!")
+            }
+            .addOnFailureListener { e ->
+                Log.w("initializeNewUser method", "Error writing document", e)
+            }
     }
 
     fun getSignedInUser(context: Context): User? {
