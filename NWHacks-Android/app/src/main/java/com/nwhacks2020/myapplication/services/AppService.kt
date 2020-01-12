@@ -5,6 +5,7 @@ import android.util.Log
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.firebase.firestore.FirebaseFirestore
+import com.nwhacks2020.myapplication.models.Offer
 import com.nwhacks2020.myapplication.models.User
 
 // For all services used in the app
@@ -14,6 +15,38 @@ class AppService {
 
     init {
         // Initialize any dependencies
+    }
+
+    fun saveOfferToFirebase(offer: Offer) {
+
+        val offerdata = hashMapOf(
+            "text" to offer.text,
+            "type" to offer.type,
+            "longitude" to offer.longitude,
+            "latitude" to offer.latitude
+        )
+
+        db.collection("offers").document()
+            .set(offerdata)
+            .addOnSuccessListener { documentReference ->
+                Log.d("saveOfferToFirebase method", "DocumentSnapshot successfully written!")
+            }
+            .addOnFailureListener { e ->
+                Log.w("saveOfferToFirebase method", "Error writing document", e)
+            }
+    }
+
+    fun getOffers(){
+        db.collection("offers")
+            .get()
+            .addOnSuccessListener { result ->
+            for (document in result) {
+                Log.d("getOffersFromFirebase method", "${document.id} => ${document.data}")
+            }
+        }
+            .addOnFailureListener { exception ->
+                Log.d("getOffersFromFirebase method", "Error getting documents: ", exception)
+            }
     }
 
     fun initializeNewUser(googleAccount: GoogleSignInAccount) {
