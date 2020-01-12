@@ -3,6 +3,9 @@ package com.nwhacks2020.myapplication.services
 import android.content.Context
 import android.location.Location
 import android.util.Log
+import com.github.kittinunf.fuel.Fuel
+import com.github.kittinunf.fuel.core.Headers
+import com.github.kittinunf.fuel.core.extensions.jsonBody
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -25,6 +28,34 @@ class AppService {
                 onSuccess(location)
             }
         }
+    }
+
+    fun getKeywordMatch(query: String, onSuccess: (String) -> Unit) {
+        Fuel.post("https://westcentralus.api.cognitive.microsoft.com/text/analytics/v2.1/keyPhrases")
+            .header(Headers.CONTENT_TYPE, "application/json")
+            .header("Ocp-Apim-Subscription-Key", "c53110b33e124cf48f605692e56c8c2f")
+            .body("{\n" +
+                    "  \"documents\": [\n" +
+                    "    {\n" +
+                    "      \"language\": \"en\",\n" +
+                    "      \"id\": \"0\",\n" +
+                    "      \"text\": \"$query\"\n" +
+                    "    }\n" +
+                    "  ]\n" +
+                    "}")
+            .also { println(it) }
+            .responseString { result ->
+                val respStr: String = result.get()
+                var keyword = "none"
+                if (respStr.contains("water", false)) {
+                    keyword = "water"
+                } else if (respStr.contains("earthquake", false)) {
+                    keyword = "earthquake"
+                } else if (respStr.contains("place") || respStr.contains("shelter")) {
+                    keyword = "shelter"
+                }
+                onSuccess(keyword)
+            }
     }
 
     fun saveOfferToFirebase(offer: Offer) {
