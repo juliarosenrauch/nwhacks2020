@@ -174,13 +174,13 @@ class HomeMapsFragment(val parentActivity: Activity) : Fragment(), OnMapReadyCal
                                 )
                             )
                         }
-//                        Offer.musterPointType -> {
-//                            markerOptions.icon(
-//                                BitmapDescriptorFactory.fromBitmap(
-//                                    BitmapFactory.decodeResource(resources, R.mipmap.muster_point_marker)
-//                                )
-//                            )
-//                        }
+                        Offer.musterPointType -> {
+                            markerOptions.icon(
+                                BitmapDescriptorFactory.fromBitmap(
+                                    BitmapFactory.decodeResource(resources, R.mipmap.muster_marker)
+                                )
+                            )
+                        }
                     }
                     // Set title, shows only when marker pressed
                     markerOptions.title(offer.text)
@@ -251,7 +251,7 @@ class HomeMapsFragment(val parentActivity: Activity) : Fragment(), OnMapReadyCal
 
     private fun moveToCurrentLocation() {
         AppService.getService().getLocation(parentActivity) { location ->
-            val currLocation = LatLng(49.270911, -123.262388)
+            val currLocation = LatLng(location.latitude, location.longitude)
 
             mMap.moveCamera(CameraUpdateFactory.newLatLng(currLocation))
             mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currLocation, 15f))
