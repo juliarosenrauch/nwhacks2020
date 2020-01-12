@@ -12,21 +12,36 @@ class AppService {
         // Initialize any dependencies
     }
 
+    fun initializeNewUser(googleAccount: GoogleSignInAccount) {
+        // Create a user
+        initializeUser(googleAccount)
+        // TODO: Save to firebase
+    }
+
     fun getSignedInUser(context: Context): User? {
         val account: GoogleSignInAccount? = GoogleSignIn.getLastSignedInAccount(context)
         account?.let {
-            // Create user from the signed in account
-            return User(it.id ?: "",
-                it.displayName ?: "",
-                it.displayName ?: "",
-                it.email ?: ""
-            )
+            initializeUser(it)
         }
         return null
     }
 
+    private fun initializeUser(googleAccount: GoogleSignInAccount): User {
+        // Create user from the signed in account
+        val user =  User(
+            googleAccount.id ?: "",
+            googleAccount.displayName ?: "",
+            googleAccount.displayName ?: "",
+            googleAccount.email ?: ""
+        )
+        // Initialize singleton
+        AppService.user = user
+        return user
+    }
+
     companion object {
         private var appService: AppService? = null
+        var user: User? = null // We'll force unwrap this just to be hacky, need to make sure we set this
 
         fun getService(): AppService {
             appService?.let { return it }

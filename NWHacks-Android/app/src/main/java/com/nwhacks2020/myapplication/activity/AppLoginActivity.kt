@@ -67,7 +67,14 @@ class AppLoginActivity : AppCompatActivity() {
                 if (task.isSuccessful) {
                     // Sign in success, update UI with the signed-in user's information
                     val user = auth.currentUser
+                    // Create user
+
+                    // Save to firebase
+
+                    // Go to home screen activity
+
                     Log.e("", "Yay")
+                    startActivity(Intent(applicationContext, HomeActivity::class.java))
                 } else {
                     Log.e("AppLoginActivity", "Sign in unsuccessful")
                 }
