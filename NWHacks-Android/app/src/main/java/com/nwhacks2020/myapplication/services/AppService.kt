@@ -33,7 +33,7 @@ class AppService {
     fun getKeywordMatch(query: String, onSuccess: (String) -> Unit) {
         Fuel.post("https://westcentralus.api.cognitive.microsoft.com/text/analytics/v2.1/keyPhrases")
             .header(Headers.CONTENT_TYPE, "application/json")
-            .header("Ocp-Apim-Subscription-Key", "c53110b33e124cf48f605692e56c8c2f")
+            .header("Ocp-Apim-Subscription-Key", "")
             .body("{\n" +
                     "  \"documents\": [\n" +
                     "    {\n" +
